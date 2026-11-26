@@ -11,6 +11,10 @@
             const storedTheme = localStorage.getItem('hris-theme');
             const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             document.documentElement.setAttribute('data-bs-theme', storedTheme || preferredTheme);
+
+            if (window.innerWidth > 991.98 && localStorage.getItem('hris-sidebar-collapsed') === '1') {
+                document.documentElement.classList.add('sidebar-collapsed');
+            }
         })();
     </script>
 
@@ -96,8 +100,15 @@
     <div class="hris-main">
         <nav class="hris-topbar">
             <div class="hris-topbar-title">
-                <button class="hris-icon-button d-lg-none" type="button" id="sidebarToggle" aria-label="Buka menu">
-                    <i class="bi bi-list fs-5"></i>
+                <button
+                    class="hris-icon-button"
+                    type="button"
+                    id="sidebarToggle"
+                    aria-controls="hrisSidebar"
+                    aria-expanded="true"
+                    aria-label="Tutup sidebar"
+                >
+                    <i class="bi bi-layout-sidebar fs-5" id="sidebarToggleIcon"></i>
                 </button>
                 <span class="topbar-icon d-none d-sm-inline-flex"><i class="bi bi-grid-1x2"></i></span>
                 <span class="topbar-label d-none d-sm-inline">@yield('title', 'Dashboard')</span>
@@ -222,25 +233,61 @@
 
         const sidebar = document.getElementById('hrisSidebar');
         const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const compactSidebar = window.matchMedia('(max-width: 991.98px)');
 
-        function closeSidebar() {
-            sidebar?.classList.remove('show');
-            sidebarBackdrop?.classList.remove('show');
+        function isSidebarOpen() {
+            return compactSidebar.matches
+                ? sidebar?.classList.contains('show') === true
+                : !document.documentElement.classList.contains('sidebar-collapsed');
         }
 
-        document.getElementById('sidebarToggle')?.addEventListener('click', function () {
-            sidebar?.classList.toggle('show');
-            sidebarBackdrop?.classList.toggle('show');
-        });
-        sidebarBackdrop?.addEventListener('click', closeSidebar);
-        document.querySelectorAll('#hrisSidebar .nav-link').forEach(function (link) {
-            link.addEventListener('click', closeSidebar);
-        });
-        window.addEventListener('resize', function () {
-            if (window.innerWidth > 991.98) {
-                closeSidebar();
+        function syncSidebarToggle() {
+            const isOpen = isSidebarOpen();
+            sidebarToggle?.setAttribute('aria-expanded', String(isOpen));
+            sidebarToggle?.setAttribute('aria-label', isOpen ? 'Tutup sidebar' : 'Buka sidebar');
+        }
+
+        function closeMobileSidebar() {
+            sidebar?.classList.remove('show');
+            sidebarBackdrop?.classList.remove('show');
+            syncSidebarToggle();
+        }
+
+        function toggleSidebar() {
+            if (compactSidebar.matches) {
+                const shouldOpen = !sidebar?.classList.contains('show');
+                sidebar?.classList.toggle('show', shouldOpen);
+                sidebarBackdrop?.classList.toggle('show', shouldOpen);
+            } else {
+                const isCollapsed = document.documentElement.classList.toggle('sidebar-collapsed');
+                localStorage.setItem('hris-sidebar-collapsed', isCollapsed ? '1' : '0');
+                sidebar?.classList.remove('show');
+                sidebarBackdrop?.classList.remove('show');
             }
+
+            syncSidebarToggle();
+        }
+
+        sidebarToggle?.addEventListener('click', toggleSidebar);
+        sidebarBackdrop?.addEventListener('click', closeMobileSidebar);
+        document.querySelectorAll('#hrisSidebar .nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (compactSidebar.matches) {
+                    closeMobileSidebar();
+                }
+            });
         });
+        compactSidebar.addEventListener('change', function () {
+            closeMobileSidebar();
+
+            if (!compactSidebar.matches) {
+                document.documentElement.classList.toggle('sidebar-collapsed', localStorage.getItem('hris-sidebar-collapsed') === '1');
+            }
+
+            syncSidebarToggle();
+        });
+        syncSidebarToggle();
 
         @if (session('swal'))
             Swal.fire({

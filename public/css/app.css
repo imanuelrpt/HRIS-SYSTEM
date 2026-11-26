@@ -77,6 +77,7 @@ a {
     scrollbar-color: rgba(255, 255, 255, .18) transparent;
     scrollbar-width: thin;
     top: 0;
+    transition: transform .22s ease;
     width: 264px;
     z-index: 1045;
 }
@@ -254,6 +255,14 @@ a {
     margin-left: 264px;
     min-height: 100vh;
     transition: margin-left .2s ease;
+}
+
+html.sidebar-collapsed .hris-sidebar {
+    transform: translateX(-100%);
+}
+
+html.sidebar-collapsed .hris-main {
+    margin-left: 0;
 }
 
 .hris-topbar {
