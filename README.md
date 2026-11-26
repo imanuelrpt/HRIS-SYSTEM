@@ -35,7 +35,7 @@ Tumpuan teknologi: Laravel 10.50, PHP 8.1+, MySQL, Blade + Bootstrap 5, Chart.js
 
 ## Screenshots
 
-Berikut tampilan antarmuka utama aplikasi setelah penyempurnaan UI/UX. Halaman selain login menggunakan akun Admin HR pada resolusi desktop.
+Berikut tampilan antarmuka utama aplikasi setelah penyempurnaan UI/UX. Halaman selain login menggunakan akun Admin HR pada tampilan desktop lebar 1440px.
 
 1. Halaman masuk dengan akun demo dan toggle kata sandi
 
