@@ -9,6 +9,9 @@
     <div class="row g-4">
         <div class="col-lg-8">
             <div class="card">
+                <div class="card-header">
+                    <span class="section-title mb-0"><i class="bi bi-calendar2-plus"></i>Detail Pengajuan</span>
+                </div>
                 <form method="POST" action="{{ route('leave-requests.store') }}" enctype="multipart/form-data" class="js-loading-form">
                     @csrf
 
@@ -36,7 +39,9 @@
                             @enderror
                         </div>
 
-                        <div class="alert alert-info py-2" id="leaveTypeInfo">Pilih jenis cuti untuk melihat informasi kuota.</div>
+                        <div class="alert alert-info py-2 d-flex align-items-center gap-2" id="leaveTypeInfo">
+                            <i class="bi bi-info-circle-fill"></i><span>Pilih jenis cuti untuk melihat informasi kuota.</span>
+                        </div>
 
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -115,7 +120,9 @@
 
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-header">Ringkasan Kuota Tahun {{ now()->year }}</div>
+                <div class="card-header">
+                    <span class="section-title mb-0"><i class="bi bi-pie-chart"></i>Ringkasan Kuota Tahun {{ now()->year }}</span>
+                </div>
                 <div class="list-group list-group-flush">
                     @foreach ($leaveTypes as $leaveType)
                         @php

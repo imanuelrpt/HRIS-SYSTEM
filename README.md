@@ -28,36 +28,40 @@ Tujuan spesifiknya adalah:
 | Administrasi | CRUD karyawan, departemen, jabatan, hari libur, jenis cuti, pengaturan jam kerja, serta halaman audit log. |
 | Notifikasi | Notifikasi masuk untuk pengajuan, persetujuan, penolakan, dan pembatalan; bell badge dan halaman daftar notifikasi. |
 | Keamanan | Middleware `role:admin,manager` dan `role:admin`, Policy untuk tiap modul, Form Request, mass-assignment protection, soft delete, dan transaksi database. |
-| Antarmuka | Bootstrap 5 responsif dengan sidebar/navbar, badge status, SweetAlert2, flash message, empty state, dan loading state. |
+| Antarmuka | Bootstrap 5 responsif dengan sidebar/navbar, badge status, SweetAlert2, flash message, empty state, dan loading state. Tampilan diperbarui dengan sistem desain kartu, mode terang/gelap, akses cepat, filter terstruktur, autofill akun demo, dan toggle kata sandi. |
 | Pengujian | Feature test PHPUnit untuk hari kerja, kuota kurang, konflik tanggal, approval dua level, akses admin, dan duplikat clock-in. |
 
 Tumpuan teknologi: Laravel 10.50, PHP 8.1+, MySQL, Blade + Bootstrap 5, Chart.js CDN, SweetAlert2, maatwebsite/excel 3.1, barryvdh/laravel-dompdf 2.2, dan PHPUnit 10.
 
 ## Screenshots
 
-Berikut tampilan antarmuka utama aplikasi menggunakan akun Admin HR pada resolusi desktop.
+Berikut tampilan antarmuka utama aplikasi setelah penyempurnaan UI/UX. Halaman selain login menggunakan akun Admin HR pada resolusi desktop.
 
-1. Dashboard
+1. Halaman masuk dengan akun demo dan toggle kata sandi
+
+   ![Halaman Masuk](docs/screenshots/00-login.png)
+
+2. Dashboard
 
    ![Dashboard HRIS Mini](docs/screenshots/01-dashboard.png)
 
-2. Riwayat absensi
+3. Riwayat absensi
 
    ![Riwayat Absensi](docs/screenshots/02-absensi.png)
 
-3. Pengajuan cuti
+4. Pengajuan cuti
 
    ![Pengajuan Cuti](docs/screenshots/03-pengajuan-cuti.png)
 
-4. Persetujuan cuti
+5. Persetujuan cuti
 
    ![Persetujuan Cuti](docs/screenshots/04-approval.png)
 
-5. Rekap bulanan dan grafik kehadiran
+6. Rekap bulanan dan grafik kehadiran
 
    ![Rekap Bulanan](docs/screenshots/05-rekap-bulanan.png)
 
-6. Administrasi karyawan
+7. Administrasi karyawan
 
    ![Administrasi Karyawan](docs/screenshots/06-admin-karyawan.png)
 

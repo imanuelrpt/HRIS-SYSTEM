@@ -29,38 +29,55 @@
 
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span>Daftar Pengajuan</span>
-            <form method="GET" action="{{ route('leave-requests.index') }}" class="d-flex flex-wrap gap-2">
+            <span class="section-title mb-0"><i class="bi bi-list-ul"></i>Daftar Pengajuan</span>
+            <form method="GET" action="{{ route('leave-requests.index') }}" class="hris-filterbar">
                 @if ($canViewAll)
-                    <select name="user_id" class="form-select form-select-sm" style="width: 180px;">
-                        <option value="">Semua karyawan</option>
-                        @foreach ($users as $id => $name)
-                            <option value="{{ $id }}" @selected($selectedUserId == $id)>{{ $name }}</option>
+                    <div class="filter-field">
+                        <label for="user_id">Karyawan</label>
+                        <select name="user_id" id="user_id" class="form-select form-select-sm">
+                            <option value="">Semua karyawan</option>
+                            @foreach ($users as $id => $name)
+                                <option value="{{ $id }}" @selected($selectedUserId == $id)>{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+                <div class="filter-field">
+                    <label for="leave_type_id">Jenis Cuti</label>
+                    <select name="leave_type_id" id="leave_type_id" class="form-select form-select-sm">
+                        <option value="">Semua jenis</option>
+                        @foreach ($leaveTypes as $id => $name)
+                            <option value="{{ $id }}" @selected($leaveTypeId == $id)>{{ $name }}</option>
                         @endforeach
                     </select>
-                @endif
-                <select name="leave_type_id" class="form-select form-select-sm" style="width: 160px;">
-                    <option value="">Semua jenis</option>
-                    @foreach ($leaveTypes as $id => $name)
-                        <option value="{{ $id }}" @selected($leaveTypeId == $id)>{{ $name }}</option>
-                    @endforeach
-                </select>
-                <select name="status" class="form-select form-select-sm" style="width: 170px;">
-                    <option value="">Semua status</option>
-                    @foreach ($statusOptions as $value => $label)
-                        <option value="{{ $value }}" @selected($statusFilter === $value)>{{ $label }}</option>
-                    @endforeach
-                </select>
-                <select name="month" class="form-select form-select-sm" style="width: 140px;">
-                    <option value="">Semua bulan</option>
-                    @foreach ($monthNames as $number => $label)
-                        <option value="{{ $number }}" @selected($month === $number)>{{ $label }}</option>
-                    @endforeach
-                </select>
-                <input type="number" name="year" value="{{ $year > 0 ? $year : '' }}" class="form-control form-control-sm" style="width: 100px;" placeholder="Tahun" min="2000" max="2100">
-                <button type="submit" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-funnel"></i> Filter
-                </button>
+                </div>
+                <div class="filter-field">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" class="form-select form-select-sm">
+                        <option value="">Semua status</option>
+                        @foreach ($statusOptions as $value => $label)
+                            <option value="{{ $value }}" @selected($statusFilter === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="month">Bulan</label>
+                    <select name="month" id="month" class="form-select form-select-sm">
+                        <option value="">Semua bulan</option>
+                        @foreach ($monthNames as $number => $label)
+                            <option value="{{ $number }}" @selected($month === $number)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="filter-field" style="max-width: 110px;">
+                    <label for="year">Tahun</label>
+                    <input type="number" name="year" id="year" value="{{ $year > 0 ? $year : '' }}" class="form-control form-control-sm" placeholder="Tahun" min="2000" max="2100">
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-funnel me-1"></i>Filter
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -100,7 +117,7 @@
                             </td>
                             <td>
                                 @if ($leaveRequest->attachment_path)
-                                    <a href="{{ \Illuminate\Support\Facades\Storage::url($leaveRequest->attachment_path) }}" target="_blank" rel="noopener">
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::url($leaveRequest->attachment_path) }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary">
                                         <i class="bi bi-paperclip me-1"></i>Lihat
                                     </a>
                                 @else

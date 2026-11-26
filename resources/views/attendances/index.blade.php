@@ -22,98 +22,112 @@
         title="Riwayat Absensi"
         subtitle="Catat kehadiran hari ini dan pantau riwayat absensi Anda."
     >
-        <span class="badge bg-light text-dark border fs-6">
-            <i class="bi bi-clock me-1"></i>{{ format_waktu($workSetting->check_in) }} — {{ format_waktu($workSetting->check_out) }}
+        <span class="hris-date-pill fs-6">
+            <i class="bi bi-clock"></i>{{ format_waktu($workSetting->check_in) }} — {{ format_waktu($workSetting->check_out) }}
         </span>
     </x-page-header>
 
-    <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span><i class="bi bi-calendar-check me-2"></i>Absensi Hari Ini</span>
-            <span class="text-muted small">{{ format_tanggal(today()) }}</span>
+    <div class="hris-clock-card mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <span class="section-title mb-0"><i class="bi bi-calendar-check"></i>Absensi Hari Ini</span>
+            <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i>{{ format_tanggal(today()) }}</span>
         </div>
-        <div class="card-body">
-            @if (! $isWorkingDay)
-                <div class="alert alert-info mb-0">
-                    <i class="bi bi-info-circle me-2"></i>Hari ini bukan hari kerja atau tanggal libur, sehingga absensi tidak dapat dilakukan.
+
+        @if (! $isWorkingDay)
+            <div class="alert alert-info mb-0">
+                <i class="bi bi-info-circle me-2"></i>Hari ini bukan hari kerja atau tanggal libur, sehingga absensi tidak dapat dilakukan.
+            </div>
+        @elseif ($todayAttendance === null)
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="text-muted small">Status absensi</div>
+                    <div class="h4 fw-bold mb-0">Belum clock-in</div>
+                    <div class="text-muted small">Jangan lupa absen sebelum jam kerja dimulai.</div>
                 </div>
-            @elseif ($todayAttendance === null)
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                    <div>
-                        <div class="text-muted small">Status absensi</div>
-                        <div class="h4 mb-0">Belum clock-in</div>
-                    </div>
-                    <form method="POST" action="{{ route('attendances.check-in') }}" class="js-loading-form">
-                        @csrf
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Clock In
-                        </button>
-                    </form>
+                <form method="POST" action="{{ route('attendances.check-in') }}" class="js-loading-form">
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Clock In
+                    </button>
+                </form>
+            </div>
+        @else
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <div class="text-muted small">Clock In</div>
+                    <div class="hris-clock-value">{{ format_waktu($todayAttendance->clock_in) }}</div>
                 </div>
-            @else
-                <div class="row g-3 align-items-center">
-                    <div class="col-auto">
-                        <div class="text-muted small">Clock In</div>
-                        <div class="hris-clock-value">{{ format_waktu($todayAttendance->clock_in) }}</div>
+                <div class="col-auto">
+                    <div class="text-muted small">Clock Out</div>
+                    <div class="hris-clock-value {{ $todayAttendance->clock_out === null ? 'text-muted' : '' }}">
+                        {{ $todayAttendance->clock_out === null ? '--:--' : format_waktu($todayAttendance->clock_out) }}
                     </div>
-                    <div class="col-auto">
-                        <div class="text-muted small">Clock Out</div>
-                        <div class="hris-clock-value {{ $todayAttendance->clock_out === null ? 'text-muted' : '' }}">
-                            {{ $todayAttendance->clock_out === null ? '--:--' : format_waktu($todayAttendance->clock_out) }}
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="text-muted small">Status</div>
-                        <span class="badge {{ $todayAttendance->status->badgeClass() }} fs-6">
-                            {{ $todayAttendance->status->label() }}
+                </div>
+                <div class="col-auto">
+                    <div class="text-muted small">Status</div>
+                    <span class="badge {{ $todayAttendance->status->badgeClass() }} fs-6">
+                        {{ $todayAttendance->status->label() }}
+                    </span>
+                </div>
+                <div class="col-auto ms-lg-auto">
+                    @if ($todayAttendance->clock_out === null)
+                        <form method="POST" action="{{ route('attendances.check-out') }}" class="js-loading-form">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary btn-lg">
+                                <i class="bi bi-box-arrow-right me-2"></i>Clock Out
+                            </button>
+                        </form>
+                    @else
+                        <span class="text-success fw-semibold">
+                            <i class="bi bi-check-circle-fill me-2"></i>Absensi hari ini sudah lengkap
                         </span>
-                    </div>
-                    <div class="col-auto ms-lg-auto">
-                        @if ($todayAttendance->clock_out === null)
-                            <form method="POST" action="{{ route('attendances.check-out') }}" class="js-loading-form">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-primary btn-lg">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Clock Out
-                                </button>
-                            </form>
-                        @else
-                            <span class="text-success fw-semibold">
-                                <i class="bi bi-check-circle-fill me-2"></i>Absensi hari ini sudah lengkap
-                            </span>
-                        @endif
-                    </div>
+                    @endif
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
     </div>
 
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span>Daftar Absensi</span>
-            <form method="GET" action="{{ route('attendances.index') }}" class="d-flex flex-wrap gap-2">
+            <span class="section-title mb-0"><i class="bi bi-list-ul"></i>Daftar Absensi</span>
+            <form method="GET" action="{{ route('attendances.index') }}" class="hris-filterbar">
                 @if ($canViewAll)
-                    <select name="user_id" class="form-select form-select-sm" style="width: 180px;">
-                        <option value="">Semua karyawan</option>
-                        @foreach ($users as $id => $name)
-                            <option value="{{ $id }}" @selected($selectedUserId == $id)>{{ $name }}</option>
+                    <div class="filter-field">
+                        <label for="user_id">Karyawan</label>
+                        <select name="user_id" id="user_id" class="form-select form-select-sm">
+                            <option value="">Semua karyawan</option>
+                            @foreach ($users as $id => $name)
+                                <option value="{{ $id }}" @selected($selectedUserId == $id)>{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+                <div class="filter-field">
+                    <label for="month">Bulan</label>
+                    <select name="month" id="month" class="form-select form-select-sm">
+                        @foreach ($monthNames as $number => $label)
+                            <option value="{{ $number }}" @selected($month === $number)>{{ $label }}</option>
                         @endforeach
                     </select>
-                @endif
-                <select name="month" class="form-select form-select-sm" style="width: 140px;">
-                    @foreach ($monthNames as $number => $label)
-                        <option value="{{ $number }}" @selected($month === $number)>{{ $label }}</option>
-                    @endforeach
-                </select>
-                <input type="number" name="year" value="{{ $year }}" class="form-control form-control-sm" style="width: 100px;" min="2000" max="2100">
-                <select name="status" class="form-select form-select-sm" style="width: 150px;">
-                    <option value="">Semua status</option>
-                    @foreach ($statusOptions as $value => $label)
-                        <option value="{{ $value }}" @selected($statusFilter === $value)>{{ $label }}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-funnel"></i> Filter
-                </button>
+                </div>
+                <div class="filter-field" style="max-width: 110px;">
+                    <label for="year">Tahun</label>
+                    <input type="number" name="year" id="year" value="{{ $year }}" class="form-control form-control-sm" min="2000" max="2100">
+                </div>
+                <div class="filter-field">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" class="form-select form-select-sm">
+                        <option value="">Semua status</option>
+                        @foreach ($statusOptions as $value => $label)
+                            <option value="{{ $value }}" @selected($statusFilter === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-funnel me-1"></i>Filter
+                    </button>
+                </div>
             </form>
         </div>
 

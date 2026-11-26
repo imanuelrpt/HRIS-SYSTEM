@@ -6,6 +6,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard') — {{ config('app.name') }}</title>
 
+    <script>
+        (function () {
+            const storedTheme = localStorage.getItem('hris-theme');
+            const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-bs-theme', storedTheme || preferredTheme);
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -15,67 +26,94 @@
     <aside class="hris-sidebar" id="hrisSidebar">
         <a href="{{ route('dashboard') }}" class="brand">
             <span class="brand-icon"><i class="bi bi-grid-1x2-fill"></i></span>
-            <span class="brand-text">HRIS Mini</span>
+            <span class="brand-copy">
+                <span class="brand-text">HRIS Mini</span>
+                <span class="brand-caption">People &amp; Attendance</span>
+            </span>
         </a>
 
-        <div class="nav-caption">Menu Utama</div>
-        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
-        </a>
-        <a href="{{ route('attendances.index') }}" class="nav-link {{ request()->routeIs('attendances.*') ? 'active' : '' }}">
-            <i class="bi bi-clock-history"></i><span>Riwayat Absensi</span>
-        </a>
-        <a href="{{ route('leave-requests.index') }}" class="nav-link {{ request()->routeIs('leave-requests.*') ? 'active' : '' }}">
-            <i class="bi bi-calendar2-check"></i><span>Pengajuan Cuti</span>
-        </a>
+        <nav class="hris-sidebar-nav">
+            <div class="nav-caption">Menu Utama</div>
+            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+            </a>
+            <a href="{{ route('attendances.index') }}" class="nav-link {{ request()->routeIs('attendances.*') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i><span>Riwayat Absensi</span>
+            </a>
+            <a href="{{ route('leave-requests.index') }}" class="nav-link {{ request()->routeIs('leave-requests.*') ? 'active' : '' }}">
+                <i class="bi bi-calendar2-check"></i><span>Pengajuan Cuti</span>
+            </a>
 
-        @if (auth()->user()->isAdmin() || auth()->user()->isManager())
-            <a href="{{ route('approvals.index') }}" class="nav-link {{ request()->routeIs('approvals.*') ? 'active' : '' }}">
-                <i class="bi bi-check2-square"></i><span>Persetujuan</span>
-            </a>
-            <a href="{{ route('reports.index') }}" class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
-                <i class="bi bi-file-earmark-bar-graph"></i><span>Rekap Bulanan</span>
-            </a>
-        @endif
+            @if (auth()->user()->isAdmin() || auth()->user()->isManager())
+                <a href="{{ route('approvals.index') }}" class="nav-link {{ request()->routeIs('approvals.*') ? 'active' : '' }}">
+                    <i class="bi bi-check2-square"></i><span>Persetujuan</span>
+                </a>
+                <a href="{{ route('reports.index') }}" class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                    <i class="bi bi-file-earmark-bar-graph"></i><span>Rekap Bulanan</span>
+                </a>
+            @endif
 
-        @if (auth()->user()->isAdmin())
-            <div class="nav-caption">Administrasi</div>
-            <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-                <i class="bi bi-people"></i><span>Karyawan</span>
+            @if (auth()->user()->isAdmin())
+                <div class="nav-caption">Administrasi</div>
+                <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                    <i class="bi bi-people"></i><span>Karyawan</span>
+                </a>
+                <a href="{{ route('departments.index') }}" class="nav-link {{ request()->routeIs('departments.*') ? 'active' : '' }}">
+                    <i class="bi bi-diagram-3"></i><span>Departemen</span>
+                </a>
+                <a href="{{ route('positions.index') }}" class="nav-link {{ request()->routeIs('positions.*') ? 'active' : '' }}">
+                    <i class="bi bi-briefcase"></i><span>Jabatan</span>
+                </a>
+                <a href="{{ route('holidays.index') }}" class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}">
+                    <i class="bi bi-calendar-x"></i><span>Hari Libur</span>
+                </a>
+                <a href="{{ route('leave-types.index') }}" class="nav-link {{ request()->routeIs('leave-types.*') ? 'active' : '' }}">
+                    <i class="bi bi-list-check"></i><span>Jenis Cuti</span>
+                </a>
+                <a href="{{ route('work-settings.edit') }}" class="nav-link {{ request()->routeIs('work-settings.*') ? 'active' : '' }}">
+                    <i class="bi bi-clock"></i><span>Jam Kerja</span>
+                </a>
+                <a href="{{ route('activity-logs.index') }}" class="nav-link {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
+                    <i class="bi bi-shield-lock"></i><span>Audit Log</span>
+                </a>
+            @endif
+        </nav>
+
+        <div class="hris-sidebar-footer">
+            <a href="{{ route('profile.edit') }}" class="hris-sidebar-user">
+                <span class="avatar">{{ mb_substr(auth()->user()->name, 0, 1) }}</span>
+                <span class="user-meta">
+                    <span class="user-name d-block">{{ auth()->user()->name }}</span>
+                    <span class="user-role">{{ auth()->user()->role->label() }}</span>
+                </span>
+                <i class="bi bi-chevron-right ms-auto text-white-50 small"></i>
             </a>
-            <a href="{{ route('departments.index') }}" class="nav-link {{ request()->routeIs('departments.*') ? 'active' : '' }}">
-                <i class="bi bi-diagram-3"></i><span>Departemen</span>
-            </a>
-            <a href="{{ route('positions.index') }}" class="nav-link {{ request()->routeIs('positions.*') ? 'active' : '' }}">
-                <i class="bi bi-briefcase"></i><span>Jabatan</span>
-            </a>
-            <a href="{{ route('holidays.index') }}" class="nav-link {{ request()->routeIs('holidays.*') ? 'active' : '' }}">
-                <i class="bi bi-calendar-x"></i><span>Hari Libur</span>
-            </a>
-            <a href="{{ route('leave-types.index') }}" class="nav-link {{ request()->routeIs('leave-types.*') ? 'active' : '' }}">
-                <i class="bi bi-list-check"></i><span>Jenis Cuti</span>
-            </a>
-            <a href="{{ route('work-settings.edit') }}" class="nav-link {{ request()->routeIs('work-settings.*') ? 'active' : '' }}">
-                <i class="bi bi-clock"></i><span>Jam Kerja</span>
-            </a>
-            <a href="{{ route('activity-logs.index') }}" class="nav-link {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
-                <i class="bi bi-shield-lock"></i><span>Audit Log</span>
-            </a>
-        @endif
+        </div>
     </aside>
+
+    <div class="hris-sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
 
     <div class="hris-main">
         <nav class="hris-topbar">
-            <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-light d-lg-none" type="button" id="sidebarToggle" aria-label="Buka menu">
+            <div class="hris-topbar-title">
+                <button class="hris-icon-button d-lg-none" type="button" id="sidebarToggle" aria-label="Buka menu">
                     <i class="bi bi-list fs-5"></i>
                 </button>
-                <span class="text-muted d-none d-sm-inline">@yield('title', 'Dashboard')</span>
+                <span class="topbar-icon d-none d-sm-inline-flex"><i class="bi bi-grid-1x2"></i></span>
+                <span class="topbar-label d-none d-sm-inline">@yield('title', 'Dashboard')</span>
+                <span class="hris-topbar-divider d-none d-md-block"></span>
+                <span class="hris-date-pill d-none d-md-inline-flex">
+                    <i class="bi bi-calendar3"></i>{{ now()->translatedFormat('l, d F Y') }}
+                </span>
             </div>
 
             <div class="d-flex align-items-center gap-2">
+                <button type="button" class="hris-icon-button" id="themeToggle" aria-label="Aktifkan mode gelap">
+                    <i class="bi bi-moon-stars" id="themeIcon"></i>
+                </button>
+
                 <div class="dropdown">
-                    <button class="btn btn-light position-relative" type="button" data-bs-toggle="dropdown" aria-label="Notifikasi">
+                    <button class="hris-icon-button position-relative" type="button" data-bs-toggle="dropdown" aria-label="Notifikasi">
                         <i class="bi bi-bell fs-5"></i>
                         @if ($unreadNotificationsCount > 0)
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -83,39 +121,48 @@
                             </span>
                         @endif
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end p-3" style="width: 320px;">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <strong>Notifikasi</strong>
-                            <a href="{{ route('notifications.index') }}" class="small text-decoration-none">Lihat semua</a>
+                    <div class="dropdown-menu dropdown-menu-end hris-notification-menu mt-3">
+                        <div class="hris-notification-head">
+                            <strong><i class="bi bi-bell me-2"></i>Notifikasi</strong>
+                            <a href="{{ route('notifications.index') }}">Lihat semua</a>
                         </div>
-                        @forelse ($latestNotifications as $notification)
-                            <div class="notification-item small">
-                                <div class="fw-semibold">{{ $notification->data['title'] ?? 'Notifikasi' }}</div>
-                                <div class="text-muted">{{ $notification->data['message'] ?? '' }}</div>
-                                <div class="text-muted mt-1">{{ $notification->created_at->diffForHumans() }}</div>
-                            </div>
-                        @empty
-                            <div class="text-center text-muted py-3 small">Belum ada notifikasi baru.</div>
-                        @endforelse
+                        <div class="hris-notification-body">
+                            @forelse ($latestNotifications as $notification)
+                                <div class="notification-item d-flex gap-2">
+                                    <span class="notification-icon"><i class="bi bi-info-circle"></i></span>
+                                    <div class="min-w-0">
+                                        <div class="fw-semibold small">{{ $notification->data['title'] ?? 'Notifikasi' }}</div>
+                                        <div class="text-muted small">{{ $notification->data['message'] ?? '' }}</div>
+                                        <div class="text-muted mt-1" style="font-size: 11px;">{{ $notification->created_at->diffForHumans() }}</div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="text-center text-muted py-4 small">
+                                    <i class="bi bi-bell-slash d-block fs-4 mb-2"></i>Belum ada notifikasi baru.
+                                </div>
+                            @endforelse
+                        </div>
+                        <div class="hris-notification-foot">
+                            <a href="{{ route('notifications.index') }}" class="small text-decoration-none">Kelola notifikasi</a>
+                        </div>
                     </div>
                 </div>
 
                 <div class="dropdown">
-                    <button class="btn btn-light d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+                    <button class="hris-avatar-button" type="button" data-bs-toggle="dropdown" aria-label="Menu akun">
                         @if (auth()->user()->photo_path)
-                            <img src="{{ Storage::url(auth()->user()->photo_path) }}" alt="Foto profil" class="rounded-circle" width="28" height="28" style="object-fit: cover;">
+                            <span class="hris-avatar"><img src="{{ Storage::url(auth()->user()->photo_path) }}" alt="Foto profil"></span>
                         @else
-                            <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" style="width: 28px; height: 28px;">
-                                {{ mb_substr(auth()->user()->name, 0, 1) }}
-                            </span>
+                            <span class="hris-avatar">{{ mb_substr(auth()->user()->name, 0, 1) }}</span>
                         @endif
-                        <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
-                        <i class="bi bi-chevron-down small"></i>
+                        <span class="user-name fw-semibold small">{{ auth()->user()->name }}</span>
+                        <i class="bi bi-chevron-down small text-muted"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <div class="px-3 py-2 small text-muted">
-                            {{ auth()->user()->email }}<br>
-                            <span class="badge bg-light text-dark mt-1">{{ auth()->user()->role->label() }}</span>
+                    <div class="dropdown-menu dropdown-menu-end mt-2">
+                        <div class="px-3 py-2 small">
+                            <div class="fw-semibold">{{ auth()->user()->name }}</div>
+                            <div class="text-muted">{{ auth()->user()->email }}</div>
+                            <span class="badge bg-primary-subtle text-primary-emphasis mt-1">{{ auth()->user()->role->label() }}</span>
                         </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-person me-2"></i>Profil Saya</a>
@@ -130,16 +177,18 @@
 
         <main class="hris-content">
             @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+                    <i class="bi bi-check-circle-fill fs-5"></i>
+                    <div class="flex-grow-1">{{ session('success') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
                 </div>
             @endif
 
             @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                    <div class="flex-grow-1">{{ session('error') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
                 </div>
             @endif
 
@@ -150,8 +199,47 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function syncThemeIcon() {
+            if (!themeIcon) {
+                return;
+            }
+
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+            themeToggle?.setAttribute('aria-label', isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+        }
+
+        themeToggle?.addEventListener('click', function () {
+            const nextTheme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-bs-theme', nextTheme);
+            localStorage.setItem('hris-theme', nextTheme);
+            syncThemeIcon();
+        });
+        syncThemeIcon();
+
+        const sidebar = document.getElementById('hrisSidebar');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+        function closeSidebar() {
+            sidebar?.classList.remove('show');
+            sidebarBackdrop?.classList.remove('show');
+        }
+
         document.getElementById('sidebarToggle')?.addEventListener('click', function () {
-            document.getElementById('hrisSidebar')?.classList.toggle('show');
+            sidebar?.classList.toggle('show');
+            sidebarBackdrop?.classList.toggle('show');
+        });
+        sidebarBackdrop?.addEventListener('click', closeSidebar);
+        document.querySelectorAll('#hrisSidebar .nav-link').forEach(function (link) {
+            link.addEventListener('click', closeSidebar);
+        });
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 991.98) {
+                closeSidebar();
+            }
         });
 
         @if (session('swal'))

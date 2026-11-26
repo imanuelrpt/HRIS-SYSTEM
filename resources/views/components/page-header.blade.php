@@ -1,7 +1,10 @@
-@props(['title', 'subtitle' => null])
+@props(['title', 'subtitle' => null, 'eyebrow' => null])
 
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+<div class="hris-page-header">
     <div>
+        @if ($eyebrow)
+            <div class="hris-eyebrow">{{ $eyebrow }}</div>
+        @endif
         <h1 class="hris-page-title">{{ $title }}</h1>
         @if ($subtitle)
             <p class="hris-page-subtitle">{{ $subtitle }}</p>

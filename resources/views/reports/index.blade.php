@@ -16,23 +16,26 @@
     </x-page-header>
 
     <div class="card mb-4">
+        <div class="card-header">
+            <span class="section-title mb-0"><i class="bi bi-funnel"></i>Filter Periode</span>
+        </div>
         <div class="card-body">
-            <form method="GET" action="{{ route('reports.index') }}" class="row g-2 align-items-end">
-                <div class="col-6 col-md-2">
-                    <label for="month" class="form-label small text-muted mb-1">Bulan</label>
+            <form method="GET" action="{{ route('reports.index') }}" class="hris-filterbar">
+                <div class="filter-field">
+                    <label for="month">Bulan</label>
                     <select name="month" id="month" class="form-select form-select-sm">
                         @foreach ($monthNames as $number => $label)
                             <option value="{{ $number }}" @selected($filters['month'] === $number)>{{ $label }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-6 col-md-2">
-                    <label for="year" class="form-label small text-muted mb-1">Tahun</label>
+                <div class="filter-field" style="max-width: 120px;">
+                    <label for="year">Tahun</label>
                     <input type="number" name="year" id="year" value="{{ $filters['year'] }}" class="form-control form-control-sm" min="2000" max="2100">
                 </div>
                 @if ($canViewAll)
-                    <div class="col-6 col-md-3">
-                        <label for="department_id" class="form-label small text-muted mb-1">Departemen</label>
+                    <div class="filter-field">
+                        <label for="department_id">Departemen</label>
                         <select name="department_id" id="department_id" class="form-select form-select-sm">
                             <option value="">Semua departemen</option>
                             @foreach ($departments as $id => $name)
@@ -40,8 +43,8 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <label for="user_id" class="form-label small text-muted mb-1">Karyawan</label>
+                    <div class="filter-field">
+                        <label for="user_id">Karyawan</label>
                         <select name="user_id" id="user_id" class="form-select form-select-sm">
                             <option value="">Semua karyawan</option>
                             @foreach ($filterUsers as $id => $name)
@@ -50,7 +53,7 @@
                         </select>
                     </div>
                 @endif
-                <div class="col-12 col-md-auto d-flex gap-2">
+                <div class="filter-actions">
                     <button type="submit" class="btn btn-sm btn-primary">
                         <i class="bi bi-funnel me-1"></i>Tampilkan
                     </button>
@@ -62,76 +65,28 @@
 
     <div class="row g-3 mb-4">
         <div class="col-6 col-lg-4 col-xl-2">
-            <div class="card h-100">
-                <div class="card-body stat-card">
-                    <span class="stat-icon bg-primary-subtle text-primary-emphasis"><i class="bi bi-people"></i></span>
-                    <div>
-                        <div class="stat-label">Karyawan</div>
-                        <div class="stat-value">{{ $summary['employees'] }}</div>
-                    </div>
-                </div>
-            </div>
+            <x-stat-card icon="bi-people" label="Karyawan" :value="$summary['employees']" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <div class="card h-100">
-                <div class="card-body stat-card">
-                    <span class="stat-icon bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-calendar3"></i></span>
-                    <div>
-                        <div class="stat-label">Hari Kerja</div>
-                        <div class="stat-value">{{ $summary['working_days'] }}</div>
-                    </div>
-                </div>
-            </div>
+            <x-stat-card icon="bi-calendar3" label="Hari Kerja" :value="$summary['working_days']" variant="secondary" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <div class="card h-100">
-                <div class="card-body stat-card">
-                    <span class="stat-icon bg-success-subtle text-success-emphasis"><i class="bi bi-check2-circle"></i></span>
-                    <div>
-                        <div class="stat-label">Total Absen</div>
-                        <div class="stat-value">{{ $summary['records'] }}</div>
-                    </div>
-                </div>
-            </div>
+            <x-stat-card icon="bi-check2-circle" label="Total Absen" :value="$summary['records']" variant="success" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <div class="card h-100">
-                <div class="card-body stat-card">
-                    <span class="stat-icon bg-info-subtle text-info-emphasis"><i class="bi bi-graph-up-arrow"></i></span>
-                    <div>
-                        <div class="stat-label">Kehadiran</div>
-                        <div class="stat-value">{{ $summary['attendance_rate'] }}%</div>
-                    </div>
-                </div>
-            </div>
+            <x-stat-card icon="bi-graph-up-arrow" label="Kehadiran" :value="$summary['attendance_rate'].'%'" variant="info" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <div class="card h-100">
-                <div class="card-body stat-card">
-                    <span class="stat-icon bg-warning-subtle text-warning-emphasis"><i class="bi bi-clock-history"></i></span>
-                    <div>
-                        <div class="stat-label">Terlambat</div>
-                        <div class="stat-value">{{ $summary['terlambat'] }}</div>
-                    </div>
-                </div>
-            </div>
+            <x-stat-card icon="bi-clock-history" label="Terlambat" :value="$summary['terlambat']" variant="warning" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <div class="card h-100">
-                <div class="card-body stat-card">
-                    <span class="stat-icon bg-danger-subtle text-danger-emphasis"><i class="bi bi-calendar2-check"></i></span>
-                    <div>
-                        <div class="stat-label">Cuti Disetujui</div>
-                        <div class="stat-value">{{ $summary['leave_days'] }}</div>
-                    </div>
-                </div>
-            </div>
+            <x-stat-card icon="bi-calendar2-check" label="Cuti Disetujui" :value="$summary['leave_days']" variant="danger" />
         </div>
     </div>
 
     <div class="card mb-4">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-bar-chart me-2"></i>Distribusi Status Absensi</span>
+            <span class="section-title mb-0"><i class="bi bi-bar-chart"></i>Distribusi Status Absensi</span>
             <span class="text-muted small">
                 {{ format_tanggal($period['start']) }} — {{ format_tanggal($period['end']) }}
             </span>
@@ -143,7 +98,7 @@
 
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span>Rekap per Karyawan — {{ $period['label'] }}</span>
+            <span class="section-title mb-0"><i class="bi bi-table"></i>Rekap per Karyawan — {{ $period['label'] }}</span>
             <span class="text-muted small">Hari kerja dihitung hingga tanggal akhir periode atau hari ini.</span>
         </div>
         <div class="table-responsive">
@@ -208,6 +163,10 @@
             const attendanceChartCanvas = document.getElementById('attendanceStatusChart');
 
             if (attendanceChartCanvas && typeof Chart !== 'undefined') {
+                const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+                const tickColor = isDark ? '#9ca3af' : '#667085';
+                const gridColor = isDark ? 'rgba(255, 255, 255, .08)' : 'rgba(16, 24, 40, .06)';
+
                 new Chart(attendanceChartCanvas, {
                     type: 'bar',
                     data: attendanceChartData,
@@ -219,7 +178,12 @@
                             tooltip: { callbacks: { label: (context) => `${context.parsed.y} kali` } }
                         },
                         scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                            x: { ticks: { color: tickColor }, grid: { display: false } },
+                            y: {
+                                beginAtZero: true,
+                                ticks: { precision: 0, color: tickColor },
+                                grid: { color: gridColor }
+                            }
                         }
                     }
                 });

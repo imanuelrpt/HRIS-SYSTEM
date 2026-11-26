@@ -6,69 +6,77 @@
         subtitle="Tinjau pengajuan cuti yang menunggu keputusan Anda."
     >
         @if ($canApproveHr)
-            <span class="badge bg-light text-dark border fs-6">
-                <i class="bi bi-shield-check me-1"></i>Level 1 & Level 2
+            <span class="hris-date-pill fs-6">
+                <i class="bi bi-shield-check"></i>Level 1 &amp; Level 2
             </span>
         @else
-            <span class="badge bg-light text-dark border fs-6">
-                <i class="bi bi-person-check me-1"></i>Level 1 — Atasan
+            <span class="hris-date-pill fs-6">
+                <i class="bi bi-person-check"></i>Level 1 — Atasan
             </span>
         @endif
     </x-page-header>
 
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span>Antrian Persetujuan</span>
+            <span class="section-title mb-0"><i class="bi bi-inbox"></i>Antrian Persetujuan</span>
             @if ($canApproveHr)
-                <form method="GET" action="{{ route('approvals.index') }}" class="d-flex flex-wrap gap-2">
-                    <select name="level" class="form-select form-select-sm" style="width: 200px;">
-                        <option value="">Semua level</option>
-                        <option value="1" @selected($levelFilter === 1)>Level 1 — Atasan</option>
-                        <option value="2" @selected($levelFilter === 2)>Level 2 — HR</option>
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-funnel"></i> Filter
-                    </button>
+                <form method="GET" action="{{ route('approvals.index') }}" class="hris-filterbar">
+                    <div class="filter-field" style="min-width: 210px;">
+                        <label for="level">Level Persetujuan</label>
+                        <select name="level" id="level" class="form-select form-select-sm">
+                            <option value="">Semua level</option>
+                            <option value="1" @selected($levelFilter === 1)>Level 1 — Atasan</option>
+                            <option value="2" @selected($levelFilter === 2)>Level 2 — HR</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="bi bi-funnel me-1"></i>Filter
+                        </button>
+                    </div>
                 </form>
             @endif
         </div>
 
-        <div class="list-group list-group-flush">
+        <div class="card-body">
             @forelse ($leaveRequests as $leaveRequest)
-                <div class="list-group-item p-3">
+                <article class="approval-item">
                     <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
-                        <div>
-                            <h5 class="mb-1">{{ $leaveRequest->user->name }}</h5>
-                            <div class="text-muted small">{{ $leaveRequest->user->email }}</div>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="approval-avatar">{{ mb_substr($leaveRequest->user->name, 0, 1) }}</span>
+                            <div>
+                                <h5 class="fw-bold mb-1">{{ $leaveRequest->user->name }}</h5>
+                                <div class="text-muted small">{{ $leaveRequest->user->email }}</div>
+                            </div>
                         </div>
                         <span class="badge fs-6 {{ $leaveRequest->status->badgeClass() }}">
                             {{ $leaveRequest->status->label() }}
                         </span>
                     </div>
 
-                    <div class="row g-3 mt-2 small">
-                        <div class="col-md-3">
-                            <div class="text-muted">Jenis Cuti</div>
-                            <div class="fw-semibold">{{ $leaveRequest->leaveType->name }}</div>
+                    <div class="approval-meta">
+                        <div>
+                            <div class="approval-meta-label">Jenis Cuti</div>
+                            <div class="approval-meta-value">{{ $leaveRequest->leaveType->name }}</div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="text-muted">Periode</div>
-                            <div class="fw-semibold">
+                        <div>
+                            <div class="approval-meta-label">Periode</div>
+                            <div class="approval-meta-value">
                                 {{ format_tanggal($leaveRequest->start_date) }} — {{ format_tanggal($leaveRequest->end_date) }}
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="text-muted">Lama</div>
-                            <div class="fw-semibold">{{ $leaveRequest->total_days }} hari kerja</div>
+                        <div>
+                            <div class="approval-meta-label">Lama</div>
+                            <div class="approval-meta-value">{{ $leaveRequest->total_days }} hari kerja</div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="text-muted">Diajukan</div>
-                            <div class="fw-semibold">{{ format_tanggal_waktu($leaveRequest->created_at) }}</div>
+                        <div>
+                            <div class="approval-meta-label">Diajukan</div>
+                            <div class="approval-meta-value">{{ format_tanggal_waktu($leaveRequest->created_at) }}</div>
                         </div>
                     </div>
 
                     <div class="mt-3">
-                        <div class="text-muted small">Alasan</div>
+                        <div class="approval-meta-label">Alasan</div>
                         <div>{{ $leaveRequest->reason }}</div>
                     </div>
 
@@ -82,7 +90,7 @@
 
                     @if ($leaveRequest->approvals->isNotEmpty())
                         <div class="mt-3 border-top pt-3">
-                            <div class="fw-semibold small mb-2">Riwayat Persetujuan</div>
+                            <div class="fw-semibold small mb-2"><i class="bi bi-clock-history me-1"></i>Riwayat Persetujuan</div>
                             @foreach ($leaveRequest->approvals as $approval)
                                 <div class="d-flex flex-wrap align-items-center gap-2 small mb-1">
                                     <span class="badge {{ $approval->action->badgeClass() }}">
@@ -115,7 +123,7 @@
                             <i class="bi bi-x-lg me-1"></i>Tolak
                         </button>
                     </form>
-                </div>
+                </article>
             @empty
                 <x-empty-state
                     icon="bi-check2-square"

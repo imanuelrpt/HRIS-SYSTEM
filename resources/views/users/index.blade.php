@@ -17,21 +17,34 @@
 
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span>Daftar Karyawan</span>
-            <form method="GET" action="{{ route('users.index') }}" class="d-flex flex-wrap gap-2">
-                <input type="search" name="search" value="{{ $search }}" class="form-control form-control-sm" placeholder="Cari nama, email, atau NIK" style="width: 230px;">
-                <select name="role" class="form-select form-select-sm" style="width: 140px;">
-                    <option value="">Semua peran</option>
-                    @foreach ($roles as $value => $label)
-                        <option value="{{ $value }}" @selected($roleFilter === $value)>{{ $label }}</option>
-                    @endforeach
-                </select>
-                <select name="status" class="form-select form-select-sm" style="width: 130px;">
-                    <option value="">Semua status</option>
-                    <option value="active" @selected($statusFilter === 'active')>Aktif</option>
-                    <option value="inactive" @selected($statusFilter === 'inactive')>Nonaktif</option>
-                </select>
-                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-search"></i></button>
+            <span class="section-title mb-0"><i class="bi bi-people"></i>Daftar Karyawan</span>
+            <form method="GET" action="{{ route('users.index') }}" class="hris-filterbar">
+                <div class="filter-field" style="min-width: 230px;">
+                    <label for="search">Pencarian</label>
+                    <input type="search" name="search" id="search" value="{{ $search }}" class="form-control form-control-sm" placeholder="Cari nama, email, atau NIK">
+                </div>
+                <div class="filter-field">
+                    <label for="role">Peran</label>
+                    <select name="role" id="role" class="form-select form-select-sm">
+                        <option value="">Semua peran</option>
+                        @foreach ($roles as $value => $label)
+                            <option value="{{ $value }}" @selected($roleFilter === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" class="form-select form-select-sm">
+                        <option value="">Semua status</option>
+                        <option value="active" @selected($statusFilter === 'active')>Aktif</option>
+                        <option value="inactive" @selected($statusFilter === 'inactive')>Nonaktif</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-search me-1"></i>Cari
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -55,9 +68,9 @@
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     @if ($employee->photo_path)
-                                        <img src="{{ Storage::url($employee->photo_path) }}" alt="Foto {{ $employee->name }}" class="rounded-circle" width="34" height="34" style="object-fit: cover;">
+                                        <img src="{{ Storage::url($employee->photo_path) }}" alt="Foto {{ $employee->name }}" class="hris-avatar" style="width: 36px; height: 36px;">
                                     @else
-                                        <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary-emphasis" style="width: 34px; height: 34px;">
+                                        <span class="hris-avatar" style="width: 36px; height: 36px;">
                                             {{ mb_substr($employee->name, 0, 1) }}
                                         </span>
                                     @endif
