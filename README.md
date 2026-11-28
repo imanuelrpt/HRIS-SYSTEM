@@ -39,31 +39,31 @@ Berikut tampilan antarmuka utama aplikasi dengan desain sederhana: palet netral,
 
 1. Halaman masuk dengan akun demo dan toggle kata sandi
 
-   ![Halaman Masuk](docs/screenshots/00-login.png)
+   ![Halaman Masuk](docs/screenshots/00-login-desktop.png)
 
 2. Dashboard
 
-   ![Dashboard HRIS Mini](docs/screenshots/01-dashboard.png)
+   ![Dashboard HRIS Mini](docs/screenshots/01-dashboard-desktop.png)
 
 3. Riwayat absensi
 
-   ![Riwayat Absensi](docs/screenshots/02-absensi.png)
+   ![Riwayat Absensi](docs/screenshots/02-absensi-desktop.png)
 
 4. Pengajuan cuti
 
-   ![Pengajuan Cuti](docs/screenshots/03-pengajuan-cuti.png)
+   ![Pengajuan Cuti](docs/screenshots/03-pengajuan-cuti-desktop.png)
 
 5. Persetujuan cuti
 
-   ![Persetujuan Cuti](docs/screenshots/04-approval.png)
+   ![Persetujuan Cuti](docs/screenshots/04-approval-desktop.png)
 
 6. Rekap bulanan dan grafik kehadiran
 
-   ![Rekap Bulanan](docs/screenshots/05-rekap-bulanan.png)
+   ![Rekap Bulanan](docs/screenshots/05-rekap-bulanan-desktop.png)
 
 7. Administrasi karyawan
 
-   ![Administrasi Karyawan](docs/screenshots/06-admin-karyawan.png)
+   ![Administrasi Karyawan](docs/screenshots/06-admin-karyawan-desktop.png)
 
 ## Diagram sistem
 
