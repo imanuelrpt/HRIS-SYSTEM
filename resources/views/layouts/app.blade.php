@@ -18,9 +18,6 @@
         })();
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -30,10 +27,7 @@
     <aside class="hris-sidebar" id="hrisSidebar">
         <a href="{{ route('dashboard') }}" class="brand">
             <span class="brand-icon"><i class="bi bi-grid-1x2-fill"></i></span>
-            <span class="brand-copy">
-                <span class="brand-text">HRIS Mini</span>
-                <span class="brand-caption">People &amp; Attendance</span>
-            </span>
+            <span class="brand-text">HRIS Mini</span>
         </a>
 
         <nav class="hris-sidebar-nav">
@@ -120,7 +114,7 @@
 
             <div class="d-flex align-items-center gap-2">
                 <button type="button" class="hris-icon-button" id="themeToggle" aria-label="Aktifkan mode gelap">
-                    <i class="bi bi-moon-stars" id="themeIcon"></i>
+                    <i class="bi bi-moon" id="themeIcon"></i>
                 </button>
 
                 <div class="dropdown">
@@ -173,7 +167,7 @@
                         <div class="px-3 py-2 small">
                             <div class="fw-semibold">{{ auth()->user()->name }}</div>
                             <div class="text-muted">{{ auth()->user()->email }}</div>
-                            <span class="badge bg-primary-subtle text-primary-emphasis mt-1">{{ auth()->user()->role->label() }}</span>
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis mt-1">{{ auth()->user()->role->label() }}</span>
                         </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-person me-2"></i>Profil Saya</a>
@@ -219,7 +213,7 @@
             }
 
             const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-            themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+            themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon';
             themeToggle?.setAttribute('aria-label', isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
         }
 

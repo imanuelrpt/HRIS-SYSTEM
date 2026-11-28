@@ -116,10 +116,10 @@
                             maxlength="500"
                             placeholder="Catatan (wajib saat menolak)"
                         >
-                        <button type="submit" name="action" value="approve" class="btn btn-sm btn-success">
+                        <button type="submit" name="action" value="approve" class="btn btn-sm btn-primary">
                             <i class="bi bi-check-lg me-1"></i>Setujui
                         </button>
-                        <button type="submit" name="action" value="reject" class="btn btn-sm btn-outline-danger">
+                        <button type="submit" name="action" value="reject" class="btn btn-sm btn-outline-secondary">
                             <i class="bi bi-x-lg me-1"></i>Tolak
                         </button>
                     </form>

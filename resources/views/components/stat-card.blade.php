@@ -3,11 +3,10 @@
     'label',
     'value',
     'hint' => null,
-    'variant' => 'primary',
 ])
 
 <div class="card h-100">
-    <div class="card-body stat-card stat-card--{{ $variant }}">
+    <div class="card-body stat-card">
         <span class="stat-icon"><i class="bi {{ $icon }}"></i></span>
         <div class="stat-copy">
             <div class="stat-label">{{ $label }}</div>

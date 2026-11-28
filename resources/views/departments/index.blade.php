@@ -43,7 +43,7 @@
                                     <span class="text-muted">-</span>
                                 @endif
                             </td>
-                            <td><span class="badge bg-primary-subtle text-primary-emphasis">{{ $department->users_count }}</span></td>
+                            <td><span class="badge bg-secondary-subtle text-secondary-emphasis">{{ $department->users_count }}</span></td>
                             <td><span class="badge bg-secondary-subtle text-secondary-emphasis">{{ $department->positions_count }}</span></td>
                             <td class="text-end">
                                 <a href="{{ route('departments.edit', $department) }}" class="btn btn-sm btn-outline-primary" title="Ubah">
@@ -52,7 +52,7 @@
                                 <form method="POST" action="{{ route('departments.destroy', $department) }}" class="d-inline js-delete-form" data-confirm-text="Departemen {{ $department->name }} akan dihapus.">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash3"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Hapus"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </td>
                         </tr>

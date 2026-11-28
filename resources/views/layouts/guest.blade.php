@@ -14,9 +14,6 @@
         })();
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -33,11 +30,11 @@
                                 <i class="bi bi-grid-1x2-fill fs-5"></i>
                             </span>
                             <h2 class="mt-4 mb-2">HRIS Mini</h2>
-                            <p class="mb-4 opacity-75">Absensi, pengajuan cuti, approval, dan rekap kehadiran dalam satu aplikasi.</p>
+                            <p class="mb-4 opacity-75">Sistem informasi kehadiran dan cuti karyawan.</p>
                             <div class="mt-4">
-                                <div class="auth-feature"><i class="bi bi-clock-history"></i><span>Clock in/out yang mudah</span></div>
-                                <div class="auth-feature"><i class="bi bi-calendar2-check"></i><span>Pengajuan cuti transparan</span></div>
-                                <div class="auth-feature"><i class="bi bi-bar-chart"></i><span>Rekap kehadiran otomatis</span></div>
+                                <div class="auth-feature"><i class="bi bi-clock-history"></i><span>Clock in/out</span></div>
+                                <div class="auth-feature"><i class="bi bi-calendar2-check"></i><span>Pengajuan cuti</span></div>
+                                <div class="auth-feature"><i class="bi bi-bar-chart"></i><span>Rekap kehadiran</span></div>
                             </div>
                         </div>
                         <div class="small opacity-75">

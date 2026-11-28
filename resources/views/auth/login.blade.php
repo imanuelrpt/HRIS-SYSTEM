@@ -1,8 +1,8 @@
 <x-guest-layout>
     <div class="mb-4">
         <span class="hris-eyebrow">Portal Karyawan</span>
-        <h3>Selamat datang kembali</h3>
-        <p class="text-muted mb-0">Silakan masuk menggunakan akun yang diberikan Admin HR.</p>
+        <h3>Masuk ke HRIS Mini</h3>
+        <p class="text-muted mb-0">Gunakan akun yang diberikan Admin HR.</p>
     </div>
 
     @if ($errors->any())

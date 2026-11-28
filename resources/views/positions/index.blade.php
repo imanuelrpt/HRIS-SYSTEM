@@ -42,13 +42,13 @@
                                 @endif
                             </td>
                             <td><span class="badge bg-light text-dark border">{{ $position->department->name }}</span></td>
-                            <td><span class="badge bg-primary-subtle text-primary-emphasis">{{ $position->users_count }}</span></td>
+                            <td><span class="badge bg-secondary-subtle text-secondary-emphasis">{{ $position->users_count }}</span></td>
                             <td class="text-end">
                                 <a href="{{ route('positions.edit', $position) }}" class="btn btn-sm btn-outline-primary" title="Ubah"><i class="bi bi-pencil-square"></i></a>
                                 <form method="POST" action="{{ route('positions.destroy', $position) }}" class="d-inline js-delete-form" data-confirm-text="Jabatan {{ $position->name }} akan dihapus.">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash3"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Hapus"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </td>
                         </tr>

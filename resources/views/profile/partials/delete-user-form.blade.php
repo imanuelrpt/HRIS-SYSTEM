@@ -12,5 +12,5 @@
         @error('password', 'userDeletion') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
     </div>
 
-    <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash3 me-1"></i>Hapus Akun Saya</button>
+    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-trash3 me-1"></i>Hapus Akun Saya</button>
 </form>

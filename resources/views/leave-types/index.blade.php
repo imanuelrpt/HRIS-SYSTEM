@@ -28,14 +28,14 @@
                             <td>{{ $leaveType->quota_days }} hari</td>
                             <td>
                                 @if ($leaveType->deducts_balance)
-                                    <span class="badge bg-success-subtle text-success-emphasis">Ya</span>
+                                    <span class="badge bg-secondary-subtle text-secondary-emphasis">Ya</span>
                                 @else
                                     <span class="badge bg-secondary-subtle text-secondary-emphasis">Tidak</span>
                                 @endif
                             </td>
                             <td>
                                 @if ($leaveType->requires_attachment)
-                                    <span class="badge bg-warning-subtle text-warning-emphasis">Ya</span>
+                                    <span class="badge bg-secondary-subtle text-secondary-emphasis">Ya</span>
                                 @else
                                     <span class="badge bg-secondary-subtle text-secondary-emphasis">Tidak</span>
                                 @endif
@@ -46,7 +46,7 @@
                                 <form method="POST" action="{{ route('leave-types.destroy', $leaveType) }}" class="d-inline js-delete-form" data-confirm-text="Jenis cuti {{ $leaveType->name }} akan dihapus.">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash3"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Hapus"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </td>
                         </tr>

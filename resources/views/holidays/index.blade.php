@@ -36,7 +36,7 @@
                                 <form method="POST" action="{{ route('holidays.destroy', $holiday) }}" class="d-inline js-delete-form" data-confirm-text="Hari libur {{ format_tanggal($holiday->date) }} akan dihapus.">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash3"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Hapus"><i class="bi bi-trash3"></i></button>
                                 </form>
                             </td>
                         </tr>

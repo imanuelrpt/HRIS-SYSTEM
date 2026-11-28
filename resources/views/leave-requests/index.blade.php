@@ -135,7 +135,7 @@
                                         data-confirm-button="Ya, batalkan"
                                     >
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
                                             <i class="bi bi-x-circle me-1"></i>Batalkan
                                         </button>
                                     </form>

@@ -1,14 +1,6 @@
 <x-app-layout>
     <x-slot name="title">Karyawan</x-slot>
 
-    @php
-        $roleBadges = [
-            'admin' => 'bg-danger-subtle text-danger-emphasis',
-            'manager' => 'bg-warning-subtle text-warning-emphasis',
-            'employee' => 'bg-primary-subtle text-primary-emphasis',
-        ];
-    @endphp
-
     <x-page-header title="Karyawan" subtitle="Kelola akun, peran, dan data kepegawaian karyawan.">
         <a href="{{ route('users.create') }}" class="btn btn-primary">
             <i class="bi bi-person-plus me-1"></i>Tambah Karyawan
@@ -82,7 +74,7 @@
                             </td>
                             <td>{{ $employee->nik ?? '-' }}</td>
                             <td>
-                                <span class="badge {{ $roleBadges[$employee->role->value] ?? 'bg-secondary-subtle text-secondary-emphasis' }}">
+                                <span class="badge bg-secondary-subtle text-secondary-emphasis">
                                     {{ $employee->role->label() }}
                                 </span>
                             </td>
@@ -102,7 +94,7 @@
                                     <form method="POST" action="{{ route('users.destroy', $employee) }}" class="d-inline js-delete-form" data-confirm-text="Karyawan {{ $employee->name }} akan dinonaktifkan.">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Nonaktifkan"><i class="bi bi-trash3"></i></button>
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Nonaktifkan"><i class="bi bi-trash3"></i></button>
                                     </form>
                                 @endif
                             </td>

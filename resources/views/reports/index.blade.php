@@ -6,10 +6,10 @@
         subtitle="Ringkasan kehadiran, keterlambatan, dan cuti karyawan per periode."
     >
         <div class="d-flex flex-wrap gap-2">
-            <a href="{{ route('reports.export.excel', array_filter($filters)) }}" class="btn btn-success">
+            <a href="{{ route('reports.export.excel', array_filter($filters)) }}" class="btn btn-outline-secondary">
                 <i class="bi bi-file-earmark-excel me-1"></i>Export Excel
             </a>
-            <a href="{{ route('reports.export.pdf', array_filter($filters)) }}" class="btn btn-danger">
+            <a href="{{ route('reports.export.pdf', array_filter($filters)) }}" class="btn btn-outline-secondary">
                 <i class="bi bi-file-earmark-pdf me-1"></i>Export PDF
             </a>
         </div>
@@ -68,19 +68,19 @@
             <x-stat-card icon="bi-people" label="Karyawan" :value="$summary['employees']" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <x-stat-card icon="bi-calendar3" label="Hari Kerja" :value="$summary['working_days']" variant="secondary" />
+            <x-stat-card icon="bi-calendar3" label="Hari Kerja" :value="$summary['working_days']" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <x-stat-card icon="bi-check2-circle" label="Total Absen" :value="$summary['records']" variant="success" />
+            <x-stat-card icon="bi-check2-circle" label="Total Absen" :value="$summary['records']" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <x-stat-card icon="bi-graph-up-arrow" label="Kehadiran" :value="$summary['attendance_rate'].'%'" variant="info" />
+            <x-stat-card icon="bi-graph-up-arrow" label="Kehadiran" :value="$summary['attendance_rate'].'%'" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <x-stat-card icon="bi-clock-history" label="Terlambat" :value="$summary['terlambat']" variant="warning" />
+            <x-stat-card icon="bi-clock-history" label="Terlambat" :value="$summary['terlambat']" />
         </div>
         <div class="col-6 col-lg-4 col-xl-2">
-            <x-stat-card icon="bi-calendar2-check" label="Cuti Disetujui" :value="$summary['leave_days']" variant="danger" />
+            <x-stat-card icon="bi-calendar2-check" label="Cuti Disetujui" :value="$summary['leave_days']" />
         </div>
     </div>
 
