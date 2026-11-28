@@ -59,7 +59,7 @@ Berikut tampilan antarmuka utama aplikasi dengan desain sederhana: palet netral,
 
 6. Rekap bulanan dan grafik kehadiran
 
-   ![Rekap Bulanan]<img width="1366" height="613" alt="screenshot-2026-11-28-085034" src="https://github.com/user-attachments/assets/140ae405-aae3-4a39-aa71-06a3c4daf2ff" />
+<img width="1366" height="613" alt="screenshot-2026-11-28-085034" src="https://github.com/user-attachments/assets/140ae405-aae3-4a39-aa71-06a3c4daf2ff" />
 
 
 7. Administrasi karyawan
